@@ -67,12 +67,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Mock registration - in production this would be a real API call
+      // Fresh account: everything starts at zero, no inherited mock data
       const newUser: User = {
-        ...currentUser,
+        id: Date.now().toString(),
         username,
-        email,
         displayName: username,
-        id: Date.now().toString()
+        email,
+        rank: 'Newbie',
+        points: 0,
+        level: 0,
+        xp: 0,
+        xpToNextLevel: 100,
+        streak: 0,
+        joinDate: new Date().toISOString(),
+        country: '',
+        isVip: false,
+        badges: {
+          earned: [],
+          locked: []
+        }
       };
       
       setUser(newUser);

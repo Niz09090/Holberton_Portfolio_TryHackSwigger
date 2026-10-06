@@ -36,17 +36,20 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { mockUsers, mockBadges, mockLabs, mockActivities } from '@/lib/mockData';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function ProfilePage() {
   const params = useParams();
   const username = params.username as string;
+  const { user: authUser } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'overview' | 'badges' | 'activities' | 'stats'>('overview');
 
-  // Find user data
+  // Find user data (logged-in user's own profile takes priority, so new accounts show their real zeroed data)
   const user = useMemo(() => {
+    if (authUser && authUser.username === username) return authUser;
     return mockUsers.find(u => u.username === username) || mockUsers[0];
-  }, [username]);
+  }, [username, authUser]);
 
   if (!user) return null;
 
@@ -80,7 +83,7 @@ export default function ProfilePage() {
   const userStats = useMemo(() => {
     const completedLabs = userLabs.length;
     const totalPoints = user.points;
-    const rank = mockUsers.findIndex(u => u.id === user.id) + 1;
+    const rank = mockUsers.findIndex(u => u.id === user.id) + 1; // 0 = unranked (not on the leaderboard)
     const joinDate = new Date(user.joinDate);
     const daysSinceJoin = Math.floor((new Date().getTime() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
     
@@ -237,7 +240,7 @@ export default function ProfilePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-surface-black border border-border-dark rounded-lg p-4 text-center">
             <div className="text-2xl font-bold text-neon-green mb-1">
-              {userStats.rank}
+              {userStats.rank || '-'}
             </div>
             <div className="text-sm text-gray-400">Global Rank</div>
           </div>
@@ -376,10 +379,10 @@ export default function ProfilePage() {
                         <div className="w-16 bg-gray-700 rounded-full h-2">
                           <div 
                             className="bg-neon-green h-2 rounded-full"
-                            style={{ width: `${Math.random() * 100}%` }}
+                            style={{ width: `${userStats.completedLabs > 0 ? Math.random() * 100 : 0}%` }}
                           ></div>
                         </div>
-                        <span className="text-neon-green text-xs">{Math.floor(Math.random() * 100)}%</span>
+                        <span className="text-neon-green text-xs">{userStats.completedLabs > 0 ? Math.floor(Math.random() * 100) : 0}%</span>
                       </div>
                     </div>
                   ))}
@@ -435,15 +438,15 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-400">Success Rate</span>
-                  <span className="text-neon-green">87%</span>
+                  <span className="text-neon-green">{userStats.completedLabs > 0 ? '87%' : '-'}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-400">Average Time</span>
-                  <span className="text-neon-cyan">45 min</span>
+                  <span className="text-neon-cyan">{userStats.completedLabs > 0 ? '45 min' : '-'}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-400">Best Streak</span>
-                  <span className="text-yellow-400">12 days</span>
+                  <span className="text-yellow-400">{userStats.completedLabs > 0 ? '12 days' : '0 days'}</span>
                 </div>
               </CardContent>
             </Card>
@@ -467,7 +470,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-400">Global Ranking</span>
-                  <span className="text-purple-400">#{userStats.rank}</span>
+                  <span className="text-purple-400">{userStats.rank ? `#${userStats.rank}` : 'Unranked'}</span>
                 </div>
               </CardContent>
             </Card>

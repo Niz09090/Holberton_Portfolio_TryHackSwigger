@@ -68,7 +68,7 @@ export default function LabDetailPage() {
   const [solutionUnlocked, setSolutionUnlocked] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'loading' | 'correct' | 'incorrect'>('idle');
   const [submissionMessage, setSubmissionMessage] = useState('');
-  const [points, setPoints] = useState(1000); // Mock user points
+  const [points, setPoints] = useState(user?.points ?? 0);
   const [isSolved, setIsSolved] = useState(false);
   const [questionAnswers, setQuestionAnswers] = useState<Record<string, string>>({});
   const [questionStatus, setQuestionStatus] = useState<Record<string, 'idle' | 'loading' | 'correct' | 'incorrect'>>({});
@@ -92,6 +92,11 @@ export default function LabDetailPage() {
       if (interval) clearInterval(interval);
     };
   }, [machineStatus, timeRemaining]);
+
+  // Sync displayed points with the logged-in user
+  useEffect(() => {
+    setPoints(user?.points ?? 0);
+  }, [user?.id]);
 
   // Load solved questions from localStorage on mount
   useEffect(() => {

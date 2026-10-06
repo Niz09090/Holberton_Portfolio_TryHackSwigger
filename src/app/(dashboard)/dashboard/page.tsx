@@ -44,9 +44,12 @@ function getDifficultyColor(difficulty: string) {
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const continueLearningLab = mockLabs.find(lab => lab.id === '1');
 
   if (!user) return null;
+
+  // Brand-new accounts have no activity history, so skip the mock "in progress" / friend feed content
+  const hasActivity = mockActivities.some(a => a.user.id === user.id);
+  const continueLearningLab = hasActivity ? mockLabs.find(lab => lab.id === '1') : undefined;
 
   return (
     <div className="min-h-screen bg-deep-black text-white">
@@ -226,7 +229,7 @@ export default function DashboardPage() {
                     <Trophy className="h-4 w-4 text-yellow-400" />
                     <span className="text-gray-300">Global Rank</span>
                   </div>
-                  <span className="text-xl font-bold text-yellow-400">#{user?.rank || 'N/A'}</span>
+                  <span className="text-xl font-bold text-yellow-400">{user.points > 0 ? `#${user.rank}` : 'Unranked'}</span>
                 </div>
               </CardContent>
             </Card>
@@ -288,7 +291,12 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockActivities.slice(0, 5).map((activity) => (
+                {!hasActivity && (
+                  <p className="text-center text-gray-400 py-4">
+                    No activity yet. Complete a lab to get started!
+                  </p>
+                )}
+                {(hasActivity ? mockActivities.slice(0, 5) : []).map((activity) => (
                   <div key={activity.id} className="flex items-start space-x-3 p-3 bg-deep-black/50 rounded-lg">
                     <div className="flex-shrink-0">
                       {activity.type === 'lab_completed' && <Target className="h-5 w-5 text-neon-green" />}
