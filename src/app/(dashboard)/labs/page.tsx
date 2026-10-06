@@ -22,11 +22,13 @@ import {
   SlidersHorizontal
 } from 'lucide-react';
 import { mockLabs } from '@/lib/mockData';
+import { LabTeamType } from '@/lib/types';
 
 export default function LabsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
+  const [selectedTeam, setSelectedTeam] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [showFilters, setShowFilters] = useState(false);
 
@@ -44,8 +46,11 @@ export default function LabsPage() {
                            lab.learningObjectives.some(obj => obj.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCategory = selectedCategory === 'all' || lab.category === selectedCategory;
       const matchesDifficulty = selectedDifficulty === 'all' || lab.difficulty === selectedDifficulty;
+      const matchesTeam = selectedTeam === 'all' ||
+        (selectedTeam === 'blue' && lab.type === LabTeamType.BLUE_TEAM) ||
+        (selectedTeam === 'red' && lab.type !== LabTeamType.BLUE_TEAM);
       
-      return matchesSearch && matchesCategory && matchesDifficulty;
+      return matchesSearch && matchesCategory && matchesDifficulty && matchesTeam;
     });
 
     // Sort labs
@@ -67,7 +72,7 @@ export default function LabsPage() {
           return 0;
       }
     });
-  }, [searchTerm, selectedCategory, selectedDifficulty, sortBy]);
+  }, [searchTerm, selectedCategory, selectedDifficulty, selectedTeam, sortBy]);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -107,6 +112,7 @@ export default function LabsPage() {
     setSearchTerm('');
     setSelectedCategory('all');
     setSelectedDifficulty('all');
+    setSelectedTeam('all');
     setSortBy('newest');
   };
 
@@ -180,6 +186,19 @@ export default function LabsPage() {
             </div>
 
             <div className="relative">
+              <Shield className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+              <select
+                value={selectedTeam}
+                onChange={(e) => setSelectedTeam(e.target.value)}
+                className="pl-10 pr-8 py-3 bg-surface-black border border-border-dark rounded-lg text-white focus:outline-none focus:border-neon-green focus:ring-1 focus:ring-neon-green/20 transition-all appearance-none cursor-pointer"
+              >
+                <option value="all">All Teams</option>
+                <option value="red">Red Team</option>
+                <option value="blue">Blue Team</option>
+              </select>
+            </div>
+
+            <div className="relative">
               <Target className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
               <select
                 value={selectedDifficulty}
@@ -213,7 +232,7 @@ export default function LabsPage() {
         </div>
 
         {/* Active Filters Display */}
-        {(selectedCategory !== 'all' || selectedDifficulty !== 'all' || searchTerm) && (
+        {(selectedCategory !== 'all' || selectedDifficulty !== 'all' || selectedTeam !== 'all' || searchTerm) && (
           <div className="mb-6 flex items-center gap-2">
             <span className="text-gray-400 text-sm">Active filters:</span>
             {selectedCategory !== 'all' && (
@@ -224,6 +243,11 @@ export default function LabsPage() {
             {selectedDifficulty !== 'all' && (
               <Badge className={`${getDifficultyColor(selectedDifficulty)} border`}>
                 {selectedDifficulty}
+              </Badge>
+            )}
+            {selectedTeam !== 'all' && (
+              <Badge className={selectedTeam === 'blue' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30 border' : 'bg-red-500/20 text-red-400 border-red-500/30 border'}>
+                {selectedTeam === 'blue' ? 'Blue Team' : 'Red Team'}
               </Badge>
             )}
             {searchTerm && (
