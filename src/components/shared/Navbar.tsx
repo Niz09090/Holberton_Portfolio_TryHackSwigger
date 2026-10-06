@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/shared/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Menu, 
@@ -60,6 +61,7 @@ export const Navbar: React.FC = () => {
 
           {/* User Section */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             {isAuthenticated && user ? (
               <>
                 {/* Streak and Points */}
@@ -126,7 +128,8 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
             <Button 
               variant="ghost" 
               size="sm"

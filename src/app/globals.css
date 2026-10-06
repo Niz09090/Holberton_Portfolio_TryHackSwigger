@@ -26,6 +26,45 @@
     --input: 31 31 31;
     --ring: 0 255 136;
     --radius: 0.5rem;
+
+    /* Theme colors (RGB triplets) - dark is the default */
+    --neon-green: 0 255 136;
+    --neon-cyan: 0 212 255;
+    --deep-black: 10 10 10;
+    --surface-black: 17 17 17;
+    --border-dark: 31 31 31;
+    color-scheme: dark;
+  }
+
+  /* Light theme */
+  .light {
+    /* shadcn tokens (consumed via hsl(var(--x)), so H S L numbers) */
+    --background: 210 20 98;
+    --foreground: 220 25 10;
+    --card: 0 0 100;
+    --card-foreground: 220 25 10;
+    --popover: 0 0 100;
+    --popover-foreground: 220 25 10;
+    --primary: 160 84 30;
+    --primary-foreground: 0 0 100;
+    --secondary: 220 14 96;
+    --secondary-foreground: 220 25 10;
+    --muted: 220 14 96;
+    --muted-foreground: 220 9 40;
+    --accent: 220 14 94;
+    --accent-foreground: 220 25 10;
+    --destructive: 0 84 55;
+    --destructive-foreground: 0 0 100;
+    --border: 220 13 88;
+    --input: 220 13 88;
+    --ring: 160 84 30;
+
+    --neon-green: 5 150 105;
+    --neon-cyan: 8 145 178;
+    --deep-black: 249 250 251;
+    --surface-black: 255 255 255;
+    --border-dark: 229 231 235;
+    color-scheme: light;
   }
 
   .dark {
@@ -58,6 +97,7 @@
   
   body {
     @apply bg-background text-foreground;
+    background-color: rgb(var(--deep-black));
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
@@ -233,3 +273,19 @@
     overflow: hidden;
   }
 }
+
+/* ===== Light theme overrides for default Tailwind colors used in pages ===== */
+.light .text-white { color: rgb(17 24 39); }
+.light .hover\:text-white:hover { color: rgb(17 24 39); }
+.light .text-gray-100,
+.light .text-gray-200,
+.light .text-gray-300 { color: rgb(55 65 81); }
+.light .text-gray-400 { color: rgb(75 85 99); }
+.light .bg-black { background-color: rgb(255 255 255); }
+.light .bg-gray-900 { background-color: rgb(243 244 246); }
+.light .bg-gray-800 { background-color: rgb(229 231 235); }
+.light .border-gray-700,
+.light .border-gray-800 { border-color: rgb(209 213 219); }
+.light .terminal-text { color: rgb(var(--neon-green)); text-shadow: none; }
+.light .card-hover:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+.light ::-webkit-scrollbar-thumb { background: rgb(var(--neon-green)); }

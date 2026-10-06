@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -43,11 +44,12 @@ const config: Config = {
           foreground: 'hsl(var(--card-foreground))',
         },
         // Hacker theme colors
-        'neon-green': '#00ff88',
-        'neon-cyan': '#00d4ff',
-        'deep-black': '#0a0a0a',
-        'surface-black': '#111111',
-        'border-dark': '#1f1f1f',
+        // (values switch between dark/light via CSS variables in globals.css)
+        'neon-green': 'rgb(var(--neon-green) / <alpha-value>)',
+        'neon-cyan': 'rgb(var(--neon-cyan) / <alpha-value>)',
+        'deep-black': 'rgb(var(--deep-black) / <alpha-value>)',
+        'surface-black': 'rgb(var(--surface-black) / <alpha-value>)',
+        'border-dark': 'rgb(var(--border-dark) / <alpha-value>)',
       },
       fontFamily: {
         mono: ['JetBrains Mono', 'monospace'],
