@@ -99,9 +99,6 @@ export const Navbar: React.FC = () => {
                     <Link href={`/profile/${user.username}`} className="block px-4 py-2 text-sm text-gray-300 hover:bg-border-dark hover:text-white">
                       Profile
                     </Link>
-                    <Link href="/badges" className="block px-4 py-2 text-sm text-gray-300 hover:bg-border-dark hover:text-white">
-                      Badges
-                    </Link>
                     <Link href="/settings" className="block px-4 py-2 text-sm text-gray-300 hover:bg-border-dark hover:text-white">
                       Settings
                     </Link>
