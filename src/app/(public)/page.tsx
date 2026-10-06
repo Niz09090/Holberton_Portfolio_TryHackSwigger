@@ -302,7 +302,6 @@ export default function LandingPage() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/labs" className="hover:text-neon-green transition-colors">Labs</Link></li>
                 <li><Link href="/learn" className="hover:text-neon-green transition-colors">Learning Paths</Link></li>
-                <li><Link href="/badges" className="hover:text-neon-green transition-colors">Achievements</Link></li>
               </ul>
             </div>
             
@@ -311,7 +310,6 @@ export default function LandingPage() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/compete" className="hover:text-neon-green transition-colors">Competitions</Link></li>
                 <li><Link href="/leaderboard" className="hover:text-neon-green transition-colors">Leaderboard</Link></li>
-                <li><Link href="/teams" className="hover:text-neon-green transition-colors">Teams</Link></li>
               </ul>
             </div>
             
@@ -319,8 +317,6 @@ export default function LandingPage() {
               <h3 className="text-white font-semibold mb-4">Community</h3>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/forum" className="hover:text-neon-green transition-colors">Forum</Link></li>
-                <li><Link href="/blog" className="hover:text-neon-green transition-colors">Blog</Link></li>
-                <li><Link href="/discord" className="hover:text-neon-green transition-colors">Discord</Link></li>
               </ul>
             </div>
           </div>

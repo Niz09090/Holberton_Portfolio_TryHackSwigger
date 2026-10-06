@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '@/lib/types';
-import { currentUser } from '@/lib/mockData';
 
 interface AuthContextType {
   user: User | null;
@@ -17,39 +16,61 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Accounts and sessions live on the server (httpOnly cookie), so the same
+// username/password works from any browser or PC that reaches this site.
+async function postJson(url: string, body: unknown) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.error || 'Request failed');
+  }
+  return data;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check for existing session on mount
-    const storedUser = localStorage.getItem('tryhackswigger_user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        localStorage.removeItem('tryhackswigger_user');
-      }
+    // Old browser-only session data from earlier versions is no longer used
+    try {
+      localStorage.removeItem('tryhackswigger_user');
+      localStorage.removeItem('tryhackswigger_accounts');
+    } catch {
+      // ignore
     }
-    setIsLoading(false);
+
+    // Restore the session from the server cookie
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch('/api/auth/me');
+        const data = await response.json();
+        if (!cancelled) setUser(data.user ?? null);
+      } catch (e) {
+        console.error('Failed to restore session:', e);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock authentication - in production this would be a real API call
-      if (email === currentUser.email && password === 'password123') {
-        setUser(currentUser);
-        localStorage.setItem('tryhackswigger_user', JSON.stringify(currentUser));
-      } else {
-        throw new Error('Invalid email or password');
-      }
+      const data = await postJson('/api/auth/login', { email, password });
+      setUser(data.user);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
       throw err;
@@ -61,35 +82,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (username: string, email: string, password: string) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock registration - in production this would be a real API call
-      // Fresh account: everything starts at zero, no inherited mock data
-      const newUser: User = {
-        id: Date.now().toString(),
-        username,
-        displayName: username,
-        email,
-        rank: 'Newbie',
-        points: 0,
-        level: 0,
-        xp: 0,
-        xpToNextLevel: 100,
-        streak: 0,
-        joinDate: new Date().toISOString(),
-        country: '',
-        isVip: false,
-        badges: {
-          earned: [],
-          locked: []
-        }
-      };
-      
-      setUser(newUser);
-      localStorage.setItem('tryhackswigger_user', JSON.stringify(newUser));
+      const data = await postJson('/api/auth/register', { username, email, password });
+      setUser(data.user);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
       throw err;
@@ -100,15 +96,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('tryhackswigger_user');
+    fetch('/api/auth/logout', { method: 'POST' }).catch(() => {
+      // cookie will simply expire; local state is already cleared
+    });
   };
 
   const updateUser = (userData: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...userData };
-      setUser(updatedUser);
-      localStorage.setItem('tryhackswigger_user', JSON.stringify(updatedUser));
-    }
+    if (!user) return;
+    const updatedUser = { ...user, ...userData };
+    setUser(updatedUser);
+
+    // Save to the account on the server so changes follow the user to other devices
+    fetch('/api/auth/update', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData),
+    }).catch(err => console.error('Failed to save profile changes:', err));
   };
 
   return (
