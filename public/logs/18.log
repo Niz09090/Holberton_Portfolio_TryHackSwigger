@@ -1,0 +1,28 @@
+Received: from mail.victim-server.com (mail.victim-server.com [185.220.101.10])
+	by mx.yourcompany.com (Postfix) with ESMTPS id 8F3A4B1234
+	for <employee@yourcompany.com>; Thu, 10 Jan 2024 14:32:15 +0000
+Received: from [185.220.101.10] (port=45678 helo=attacker-pc)
+	by mail.victim-server.com with esmtp (Exim 4.94)
+	(envelope-from <ceo@yourcompany.com>)
+	id 1kLm5N-0007AB-Q9
+	for employee@yourcompany.com; Thu, 10 Jan 2024 14:30:45 +0000
+Date: Thu, 10 Jan 2024 14:32:15 +0000
+From: CEO <ceo@yourcompany.com>
+To: employee@yourcompany.com
+Subject: URGENT: Wire Transfer Required
+Message-ID: <20240110143215.8F3A4B1234@yourcompany.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Authentication-Results: mx.yourcompany.com;
+	dkim=fail (signature verification failed);
+	spf=fail (185.220.101.10 is not permitted to send for yourcompany.com);
+	dmarc=fail (policy rejected)
+Return-Path: ceo@yourcompany.com
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+Importance: High
+
+Please process the attached wire transfer immediately. This is urgent and requires your immediate attention.
+
+CEO

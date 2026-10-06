@@ -1,0 +1,11 @@
+Welcome to FileServer Pro!
+
+This is a secure document management system designed for enterprise use.
+
+Features:
+- Secure file storage
+- Document sharing
+- Version control
+- Access management
+
+For more information, please contact our support team.

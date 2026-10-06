@@ -1,0 +1,67 @@
+services:
+  hackforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-http://localhost:3075}
+    image: hackforge:${APP_VERSION:-latest}
+    container_name: hackforge-app
+    ports:
+      - "${HOST_PORT:-3075}:3075"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      PORT: 3075
+      HOSTNAME: 0.0.0.0
+      # Server-side data directory (bind a named volume in production)
+      DATA_DIR: ${DATA_DIR:-/app/data}
+      DATABASE_PATH: ${DATABASE_PATH:-/app/data/hackforge.db}
+      DATABASE_URL: ${DATABASE_URL:-}
+    # Root is required to access the Docker socket for lab container management.
+    # Restrict socket access on the host (group membership, file permissions).
+    user: root
+    restart: unless-stopped
+    networks:
+      - default
+      - tryhackswigger-network
+    volumes:
+      - hackforge-data:/app/data
+      - ${LAB_DOCKER_DIR:-./docker}:/app/docker:ro
+      - ${DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock
+
+  postgres:
+    profiles:
+      - postgres
+    image: postgres:16-alpine
+    container_name: hackforge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-hackforge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-in-production}
+      POSTGRES_DB: ${POSTGRES_DB:-hackforge}
+    volumes:
+      - hackforge-postgres:/var/lib/postgresql/data
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-hackforge} -d ${POSTGRES_DB:-hackforge}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  hackforge-data:
+    name: hackforge-data
+  hackforge-postgres:
+    name: hackforge-postgres
+
+networks:
+  default:
+    driver: bridge
+  tryhackswigger-network:
+    name: tryhackswigger-network
+    external: true

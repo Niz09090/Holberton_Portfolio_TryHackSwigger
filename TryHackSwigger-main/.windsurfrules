@@ -1,0 +1,42 @@
+You are an expert full-stack developer working on a cybersecurity learning platform built with Next.js 14 (App Router), TypeScript, and Tailwind CSS. The platform is similar to PortSwigger Web Security Academy and TryHackMe — it includes labs, challenges, user profiles, badges, leaderboards, and progress tracking.
+
+## Project Context
+- Framework: Next.js 14 (App Router, not Pages Router)
+- Language: TypeScript (strict mode)
+- Styling: Tailwind CSS
+- Auth: [replace with your auth solution, e.g. NextAuth / Clerk / custom]
+- Database: [replace with yours, e.g. PostgreSQL / MongoDB / SQLite]
+- ORM: [replace with yours, e.g. Prisma / Drizzle]
+
+## Code Style Rules
+- Always use optional chaining (?.) and nullish coalescing (??) when accessing nested object properties
+- All user-facing data must be treated as potentially undefined on first render
+- Use `useMemo` and `useCallback` only with proper dependency arrays
+- Prefer server components; use "use client" only when necessary
+- Always type props and return values explicitly — no implicit `any`
+- Use loading/error states for all async data fetching
+
+## Domain Knowledge
+- Users have profiles with: badges (earned[], locked[]), progress, points, rank, solved challenges
+- Badges are awarded on specific events (e.g. first blood, streak, completing a path)
+- Challenges have: difficulty (Easy/Medium/Hard/Insane), category (SQLi, XSS, SSRF, etc.), points, hints, flags
+- Labs are isolated environments users can start/stop
+- Leaderboards are ranked by points, with optional filters (weekly, monthly, all-time)
+
+## When Fixing Bugs
+- Always check for undefined/null before accessing nested properties
+- Check if the TypeScript type matches the actual runtime data shape
+- If mock data is used, ensure it fully matches the TypeScript interface
+- Mention both the quick fix and the root cause
+
+## When Adding Features
+- Follow existing file/folder naming conventions
+- Reuse existing components before creating new ones
+- Keep mock data and real API calls clearly separated
+- Always consider mobile responsiveness
+
+## What to Avoid
+- Never use `any` type without explanation
+- Never access nested properties without null checks
+- Never mix server and client component patterns incorrectly
+- Do not install new dependencies without asking first

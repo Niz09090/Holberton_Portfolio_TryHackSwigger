@@ -1,0 +1,26 @@
+2024-01-10 09:15:23,INFO,Security,4624,An account was successfully logged on,Subject: SYSTEM,Account Name: WORKSTATION01$,Logon Type: 3
+2024-01-10 09:15:45,INFO,Security,4688,A new process has been created,Subject: SYSTEM,Process Name: C:\Windows\System32\cmd.exe,Command Line: powershell.exe -ExecutionPolicy Bypass -File C:\Users\Public\encrypt.ps1
+2024-01-10 09:15:46,INFO,Security,4688,A new process has been created,Subject: SYSTEM,Process Name: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe,Command Line: -ExecutionPolicy Bypass -File C:\Users\Public\encrypt.ps1
+2024-01-10 09:15:47,INFO,Security,4688,A new process has been created,Subject: SYSTEM,Process Name: C:\Windows\System32\cmd.exe,Command Line: cipher.exe /e /s:C:\Users\user\Documents
+2024-01-10 09:16:02,INFO,Microsoft-Windows-PowerShell,403,Engine state is changed from None to Available
+2024-01-10 09:16:05,INFO,Microsoft-Windows-PowerShell,400,Engine state is changed from Available to Running
+2024-01-10 09:16:10,INFO,Microsoft-Windows-PowerShell,403,Engine state is changed from Running to Available
+2024-01-10 09:16:15,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\report.docx
+2024-01-10 09:16:16,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\proposal.docx
+2024-01-10 09:16:17,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\budget.docx
+2024-01-10 09:16:18,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\contract.docx
+2024-01-10 09:16:19,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\presentation.docx
+2024-01-10 09:16:20,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\invoice.docx
+2024-01-10 09:16:21,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\memo.docx
+2024-01-10 09:16:22,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\notes.docx
+2024-01-10 09:16:23,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\agenda.docx
+2024-01-10 09:16:24,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\summary.docx
+2024-01-10 09:16:25,INFO,Security,4663,An object was deleted,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Documents\meeting.docx
+2024-01-10 09:16:30,INFO,Security,4656,A handle to an object was requested,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Desktop\README_DECRYPT.txt
+2024-01-10 09:16:31,INFO,Security,4658,A handle to an object was closed,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Desktop\README_DECRYPT.txt
+2024-01-10 09:16:32,INFO,Security,4663,An object was created,Subject: SYSTEM,Object Type: File,File Name: C:\Users\user\Desktop\README_DECRYPT.txt
+2024-01-10 09:16:35,INFO,Microsoft-Windows-Sysmon,1,Process Create,Image: C:\Windows\System32\notepad.exe,CommandLine: notepad.exe C:\Users\user\Desktop\README_DECRYPT.txt
+2024-01-10 09:16:40,INFO,Microsoft-Windows-Sysmon,11,File Create,TargetFilename: C:\Users\user\Desktop\README_DECRYPT.txt
+2024-01-10 09:16:45,INFO,Security,4688,A new process has been created,Subject: SYSTEM,Process Name: C:\Windows\System32\notepad.exe,Command Line: notepad.exe C:\Users\user\Desktop\README_DECRYPT.txt
+2024-01-10 09:17:00,INFO,Security,4625,The user logged off,Subject: user,Logon Type: 2
+2024-01-10 09:17:05,INFO,Security,4634,An account was logged off,Subject: SYSTEM,Logon Type: 3

@@ -1,0 +1,25 @@
+Our Services
+
+FileServer Pro offers comprehensive document management solutions:
+
+1. Cloud Storage
+   - Secure cloud-based storage
+   - Automatic backups
+   - 99.9% uptime guarantee
+
+2. Document Sharing
+   - Secure sharing with permissions
+   - Link-based sharing
+   - Team collaboration tools
+
+3. Version Control
+   - Track document changes
+   - Rollback to previous versions
+   - Conflict resolution
+
+4. Security
+   - End-to-end encryption
+   - Access controls
+   - Audit logs
+
+Pricing plans available for businesses of all sizes.

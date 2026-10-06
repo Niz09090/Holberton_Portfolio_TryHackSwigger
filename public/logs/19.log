@@ -1,0 +1,33 @@
+type=SYSCALL msg=audit(1704895200.123:456): arch=c000003e syscall=59 success=yes exit=0 a0=7fffd5f8a8a0 a1=7fffd5f8a9c0 a2=7fffd5f8a8a0 a3=0 items=2 ppid=1234 pid=5678 auid=1000 uid=1000 gid=1000 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="sudo" exe="/usr/bin/sudo" key="sudo"
+type=EXECVE msg=audit(1704895200.123:456): argc=3 a0="sudo" a1="-i" a2="/bin/bash"
+type=PATH msg=audit(1704895200.123:456): item=0 name="/usr/bin/sudo" inode=12345 dev=08:01 mode=0104755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 cap_frootid=0
+type=PATH msg=audit(1704895200.123:456): item=1 name="/bin/bash" inode=67890 dev=08:01 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_frootid=0
+type=CWD msg=audit(1704895200.123:456): cwd="/home/appuser"
+type=USER_START msg=audit(1704895200.124:457): pid=5678 uid=0 auid=1000 ses=1 msg='op=PAM:accounting acct="appuser" exe="/usr/bin/sudo" hostname=? addr=? terminal=sudo res=success'
+type=USER_CMD msg=audit(1704895200.124:458): pid=5678 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="appuser" exe="/usr/bin/sudo" hostname=? addr=? terminal=sudo res=success'
+type=USER_AUTH msg=audit(1704895200.125:459): pid=5678 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="appuser" exe="/usr/bin/sudo" hostname=? addr=? terminal=sudo res=success'
+type=USER_ACCT msg=audit(1704895200.126:460): pid=5678 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="appuser" exe="/usr/bin/sudo" hostname=? addr=? terminal=sudo res=success'
+type=USER_START msg=audit(1704895200.127:461): pid=5678 uid=0 auid=1000 ses=1 msg='PAM:session_open acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=sudo res=success'
+type=SYSCALL msg=audit(1704895210.234:462): arch=c000003e syscall=59 success=yes exit=0 a0=7fffd5f8a8a0 a1=7fffd5f8a9c0 a2=7fffd5f8a8a0 a3=0 items=2 ppid=5678 pid=5679 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="useradd" exe="/usr/sbin/useradd" key="privileged-cmd"
+type=EXECVE msg=audit(1704895210.234:462): argc=4 a0="useradd" a1="-m" a2="-s" a3="/bin/bash"
+type=SYSCALL msg=audit(1704895210.235:463): arch=c000003e syscall=59 success=yes exit=0 a0=7fffd5f8a8a0 a1=7fffd5f8a9c0 a2=7fffd5f8a8a0 a3=0 items=2 ppid=5678 pid=5680 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="useradd" exe="/usr/sbin/useradd" key="privileged-cmd"
+type=EXECVE msg=audit(1704895210.235:463): argc=5 a0="useradd" a1="-m" a2="-s" a3="/bin/bash" a4="hacker2"
+type=USER_ACCT msg=audit(1704895210.236:464): pid=5680 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="hacker2" exe="/usr/sbin/useradd" hostname=? addr=? terminal=? res=success'
+type=USER_START msg=audit(1704895210.237:465): pid=5680 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="hacker2" exe="/usr/sbin/useradd" hostname=? addr=? terminal=? res=success'
+type=SYSCALL msg=audit(1704895220.345:466): arch=c000003e syscall=2 success=yes exit=3 a0=7fffd5f8a8a0 a1=41 a2=180 a3=0 items=1 ppid=5678 pid=5681 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="visudo" exe="/usr/sbin/visudo" key="privileged-cmd"
+type=PATH msg=audit(1704895220.345:466): item=0 name="/etc/sudoers" inode=11111 dev=08:01 mode=0100440 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_frootid=0
+type=CWD msg=audit(1704895220.345:466): cwd="/root"
+type=SYSCALL msg=audit(1704895220.346:467): arch=c000003e syscall=2 success=yes exit=3 a0=7fffd5f8a8a0 a1=1 a2=0 a3=0 items=1 ppid=5678 pid=5681 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="visudo" exe="/usr/sbin/visudo" key="privileged-cmd"
+type=PATH msg=audit(1704895220.346:467): item=0 name="/etc/sudoers" inode=11111 dev=08:01 mode=0100440 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_frootid=0
+type=CWD msg=audit(1704895220.346:467): cwd="/root"
+type=SYSCALL msg=audit(1704895220.347:468): arch=c000003e syscall=1 success=yes exit=156 a0=3 a1=7fffd5f8a8a0 a2=9c a3=0 items=0 ppid=5678 pid=5681 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="visudo" exe="/usr/sbin/visudo" key="privileged-cmd"
+type=CWD msg=audit(1704895220.347:468): cwd="/root"
+type=SYSCALL msg=audit(1704895220.348:469): arch=c000003e syscall=3 success=yes exit=0 a0=3 a1=7fffd5f8a8a0 a2=0 a3=7fffd5f8a8a0 items=0 ppid=5678 pid=5681 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="visudo" exe="/usr/sbin/visudo" key="privileged-cmd"
+type=CWD msg=audit(1704895220.348:469): cwd="/root"
+type=SYSCALL msg=audit(1704895220.349:470): arch=c000003e syscall=3 success=yes exit=0 a0=3 a1=7fffd5f8a8a0 a2=0 a3=7fffd5f8a8a0 items=0 ppid=5678 pid=5681 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="visudo" exe="/usr/sbin/visudo" key="privileged-cmd"
+type=CWD msg=audit(1704895220.349:470): cwd="/root"
+type=SYSCALL msg=audit(1704895230.456:471): arch=c000003e syscall=59 success=yes exit=0 a0=7fffd5f8a8a0 a1=7fffd5f8a9c0 a2=7fffd5f8a8a0 a3=0 items=2 ppid=5678 pid=5682 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="passwd" exe="/usr/bin/passwd" key="privileged-cmd"
+type=EXECVE msg=audit(1704895230.456:471): argc=3 a0="passwd" a1="hacker2" a2=""
+type=USER_ACCT msg=audit(1704895230.457:472): pid=5682 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="hacker2" exe="/usr/bin/passwd" hostname=? addr=? terminal=? res=success'
+type=USER_START msg=audit(1704895230.458:473): pid=5682 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="hacker2" exe="/usr/bin/passwd" hostname=? addr=? terminal=? res=success'
+type=USER_END msg=audit(1704895230.459:474): pid=5682 uid=0 auid=1000 ses=1 msg='PAM:systemd-authtok acct="hacker2" exe="/usr/bin/passwd" hostname=? addr=? terminal=? res=success'

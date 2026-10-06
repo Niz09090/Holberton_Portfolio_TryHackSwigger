@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 10 10 10;
+    --foreground: 250 250 250;
+    --card: 17 17 17;
+    --card-foreground: 250 250 250;
+    --popover: 17 17 17;
+    --popover-foreground: 250 250 250;
+    --primary: 0 255 136;
+    --primary-foreground: 0 0 0;
+    --secondary: 31 31 31;
+    --secondary-foreground: 250 250 250;
+    --muted: 31 31 31;
+    --muted-foreground: 163 163 163;
+    --accent: 31 31 31;
+    --accent-foreground: 250 250 250;
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 250 250;
+    --border: 31 31 31;
+    --input: 31 31 31;
+    --ring: 0 255 136;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 10 10 10;
+    --foreground: 250 250 250;
+    --card: 17 17 17;
+    --card-foreground: 250 250 250;
+    --popover: 17 17 17;
+    --popover-foreground: 250 250 250;
+    --primary: 0 255 136;
+    --primary-foreground: 0 0 0;
+    --secondary: 31 31 31;
+    --secondary-foreground: 250 250 250;
+    --muted: 31 31 31;
+    --muted-foreground: 163 163 163;
+    --accent: 31 31 31;
+    --accent-foreground: 250 250 250;
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 250 250;
+    --border: 31 31 31;
+    --input: 31 31 31;
+    --ring: 0 255 136;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html, body {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+  
+  /* Matrix rain effect background */
+  .matrix-bg {
+    position: relative;
+    background-image: 
+      linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: matrix-move 20s linear infinite;
+  }
+  
+  @keyframes matrix-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+  }
+  
+  /* Neon glow effects */
+  .neon-glow {
+    box-shadow: 0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5);
+  }
+  
+  .neon-glow-cyan {
+    box-shadow: 0 0 10px hsl(188 100% 50%), 0 0 20px hsl(188 100% 50% / 0.5);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  /* Terminal-style text */
+  .terminal-text {
+    font-family: 'JetBrains Mono', monospace;
+    color: #00ff88;
+    text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+  }
+  
+  /* Card hover effects */
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+  }
+  
+  /* Button animations */
+  .btn-neon {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-neon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.4), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .btn-neon:hover::before {
+    left: 100%;
+  }
+  
+  /* Loading animations */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+    50% { 
+      box-shadow: 0 0 40px rgba(0, 255, 136, 0.8);
+    }
+  }
+  
+  /* Progress bar animations */
+  .progress-bar {
+    background: linear-gradient(90deg, #00ff88 0%, #00d4ff 50%, #00ff88 100%);
+    background-size: 200% 100%;
+    animation: progress-shine 2s linear infinite;
+  }
+  
+  @keyframes progress-shine {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Typing animation */
+  .typing::after {
+    content: '|';
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  /* Glitch effect */
+  .glitch {
+    position: relative;
+    animation: glitch 2s infinite;
+  }
+  
+  @keyframes glitch {
+    0%, 100% { 
+      text-shadow: 
+        2px 2px 0 #ff0080,
+        -2px -2px 0 #00d4ff;
+    }
+    25% { 
+      text-shadow: 
+        -2px 2px 0 #ff0080,
+        2px -2px 0 #00d4ff;
+    }
+    50% { 
+      text-shadow: 
+        2px -2px 0 #ff0080,
+        -2px 2px 0 #00d4ff;
+    }
+    75% { 
+      text-shadow: 
+        -2px -2px 0 #ff0080,
+        2px 2px 0 #00d4ff;
+    }
+  }
+  
+  /* Line clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
