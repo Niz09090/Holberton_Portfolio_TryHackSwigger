@@ -69,11 +69,14 @@ export async function GET(
     
     // Get the base URL from environment
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+    const terminalHostPort = containerDetails.NetworkSettings?.Ports?.['7681/tcp']?.[0]?.HostPort;
     
     return NextResponse.json({
       running: true,
       containerId: containerInfo.Id,
       containerIP: containerIP,
+      terminalPort: terminalHostPort ? parseInt(terminalHostPort, 10) : undefined,
       accessUrl: `${baseUrl}/api/lab-proxy/${labId}/`,
       timeRemaining,
       expiresAt: expiresAt.toISOString(),

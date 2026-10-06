@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Docker from 'dockerode';
 import os from 'os';
-import { getLabProxyBaseUrl } from '@/lib/docker';
+import { getLabProxyBaseUrl, getMappedHostPort } from '@/lib/docker';
 
 export const dynamic = 'force-dynamic';
 
@@ -108,6 +108,22 @@ async function handleProxy(
     const container = docker.getContainer(containerInfo.Id);
     const containerDetails = await container.inspect();
 
+    // Terminal-only labs (e.g. buffer overflow / privesc) run ttyd on 7681 and have
+    // no HTTP service on port 80. ttyd needs a WebSocket, which this proxy can't
+    // forward, so send the browser straight to the mapped terminal port instead.
+    const webPort = getMappedHostPort(containerDetails, 80);
+    const terminalHostPort = getMappedHostPort(containerDetails, 7681);
+    const redirectToTerminal = () => {
+      const hostHeader = request.headers.get('host') || 'localhost';
+      const hostname = hostHeader.replace(/:\d+$/, '');
+      const protocol = request.nextUrl.protocol || 'http:';
+      return NextResponse.redirect(`${protocol}//${hostname}:${terminalHostPort}/`, 307);
+    };
+
+    if (!webPort && terminalHostPort) {
+      console.log('No web port mapped, redirecting to terminal port', terminalHostPort);
+      return redirectToTerminal();
+    }
     const proxyBaseUrl = getLabProxyBaseUrl(containerDetails);
     if (!proxyBaseUrl) {
       console.log('No proxy target available for container');
@@ -136,7 +152,15 @@ async function handleProxy(
       body: request.body,
       // @ts-ignore
       duplex: 'half',
+    }, terminalHostPort ? 2 : 5).catch((err) => {
+      // Port 80 is mapped but nothing answers, and a terminal is available
+      if (terminalHostPort) return null;
+      throw err;
     });
+
+    if (!response) {
+      return redirectToTerminal();
+    }
 
     console.log('Response status:', response.status);
     
