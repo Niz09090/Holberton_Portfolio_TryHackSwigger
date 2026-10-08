@@ -204,10 +204,9 @@ export default function MachineDeploy({ labId, dockerImage, ports, terminalEnabl
   };
 
   const openTerminal = () => {
-    if (!containerInfo?.terminalPort || !labId) return;
-    // Go through the app's own URL (works locally and through a tunnel/domain);
-    // the terminal WebSocket is proxied by src/middleware.ts
-    window.open(`${window.location.origin}/api/lab-proxy/${labId}/`, '_blank');
+    if (!containerInfo?.terminalPort) return;
+    // ttyd needs a WebSocket, so connect to its mapped port directly (not through the HTTP proxy)
+    window.open(`${window.location.protocol}//${window.location.hostname}:${containerInfo.terminalPort}/`, '_blank');
   };
 
   const openLabUrl = () => {
