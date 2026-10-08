@@ -108,23 +108,15 @@ async function handleProxy(
     const container = docker.getContainer(containerInfo.Id);
     const containerDetails = await container.inspect();
 
-    // Terminal-only labs (e.g. buffer overflow / privesc) run ttyd on 7681 and have
-    // no HTTP service on port 80. ttyd needs a WebSocket, which this proxy can't
-    // forward, so send the browser straight to the mapped terminal port instead.
+    // Terminal-only labs (e.g. buffer overflow / privesc) run ttyd on 7681 and have no
+    // HTTP service on port 80. Plain HTTP (the terminal page) is proxied to ttyd here;
+    // the terminal WebSocket is proxied by src/middleware.ts so it stays on this same
+    // public URL (random high ports are not reachable through a tunnel).
     const webPort = getMappedHostPort(containerDetails, 80);
     const terminalHostPort = getMappedHostPort(containerDetails, 7681);
-    const redirectToTerminal = () => {
-      const hostHeader = request.headers.get('host') || 'localhost';
-      const hostname = hostHeader.replace(/:\d+$/, '');
-      const protocol = request.nextUrl.protocol || 'http:';
-      return NextResponse.redirect(`${protocol}//${hostname}:${terminalHostPort}/`, 307);
-    };
+    const targetPort = !webPort && terminalHostPort ? 7681 : 80;
 
-    if (!webPort && terminalHostPort) {
-      console.log('No web port mapped, redirecting to terminal port', terminalHostPort);
-      return redirectToTerminal();
-    }
-    const proxyBaseUrl = getLabProxyBaseUrl(containerDetails);
+    const proxyBaseUrl = getLabProxyBaseUrl(containerDetails, targetPort);
     if (!proxyBaseUrl) {
       console.log('No proxy target available for container');
       return NextResponse.json(
@@ -152,15 +144,7 @@ async function handleProxy(
       body: request.body,
       // @ts-ignore
       duplex: 'half',
-    }, terminalHostPort ? 2 : 5).catch((err) => {
-      // Port 80 is mapped but nothing answers, and a terminal is available
-      if (terminalHostPort) return null;
-      throw err;
-    });
-
-    if (!response) {
-      return redirectToTerminal();
-    }
+    }, terminalHostPort ? 2 : 5);
 
     console.log('Response status:', response.status);
     
